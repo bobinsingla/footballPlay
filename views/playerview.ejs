@@ -1,0 +1,42 @@
+<html>
+<head>
+	<title>View Player</title>
+	<% include header %>
+	
+</head>
+<body>
+	 		<table class="table table-striped table-hover">
+	 			<thead>
+	 				<th>Players</th>
+	 				<th>Country</th>
+	 				<th>Jersy Number</th>
+	 				<th>Position</th>
+	 			</thead>
+	 			
+			  	<tbody>
+			      	<% for(var i= 0; i < playerList.length; i++) {
+		  				var player = playerList[i];
+		  				%><tr>
+		  					<td>		  		
+			     			 	<%=  player.pname %>
+	   				 			<br>
+			   				</td>	
+			   				<td>
+							 	<%=  player.country %> 	
+			   					<br>
+			   				</td>
+			   				<td>
+			         			 <%=  player.jnum %> 	
+			   				 <br>
+			   				</td>
+			   				<td>
+			     			 <%=  player.position %> 	
+			   				 <br>
+			   				</td>
+			   			  </tr>
+			   		<% } %>
+			   	</tbody>
+			</table> 
+ 
+</body>
+<html>

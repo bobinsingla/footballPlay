@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+<title>authentication</title>
+<div id="result"></div>
+<script>
+    (function(){
+      var access_token = "<%= JSONObj.loginId%>";
+    // Check browser support
+      if (typeof(Storage) !== "undefined") {
+          // Store
+          localStorage.setItem("access_token", access_token);
+          // Retrieve
+          document.getElementById("result").innerHTML = localStorage.getItem("access_token");
+        } else {
+          document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+      }
+    })()
+</script>
+
+</body>
+</html>

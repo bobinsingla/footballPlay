@@ -1,0 +1,80 @@
+<!--Name 
+Jersey Number 
+Play Position (Dropdown) 
+Stats 
+a. Number of Matches 
+b. Wins 
+c. Goals etc.. -->
+
+<html>
+<head>
+	<title> Create Player </title>
+	<% include header%>
+</head>
+<body>
+	<!-- <form method = "post" name="player" >
+		Player Name: <input type = "text" name = "pname" id="pname">
+		Country:<input type = "text" name = "country" name = "country" id="country">
+		Club(team):<input type = "text" name = "club" id="club">
+		Jersy number: <input type = "number" name = "jnum" id"jnum" min="1" max="99">
+		Player Position: <select name="position" id="position">
+    						<option value="Attacker">Attacker</option>
+   							<option value="Midfilder">Midfilder</option>
+    						<option value="Defender">Defender</option>
+    						<option value="Goalkeeper">Goalkeeper</option>
+ 						 </select>
+ 		<input type = "submit" value = "Create Player">
+ 	</form> -->
+ 	<div class = "container">
+		<form method="post" id= "form" action = "/player" class="form-horizontal" name = "registration">
+		  <fieldset>
+		    <legend>Create Player</legend>
+		    <div class="form-group">
+		      <label for="inputName" class="col-lg-2 control-label">Player Name</label>
+		      <div class="col-lg-6">
+		        <input type="text" class="form-control" name ="pname" id="pname" placeholder="Name" >
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <label for="inputName" class="col-lg-2 control-label">Player country</label>
+		      <div class="col-lg-6">
+		        <input type="text" class="form-control" name ="country" id="country" placeholder="Country" >
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <label for="inputName" class="col-lg-2 control-label">Jersy Number</label>
+		      <div class="col-lg-6">
+		        <input type="number" class="form-control" name ="jnum" id="jnum" min="1" max="99" placeholder="Jersy Number" >
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <label for="inputName" class="col-lg-2 control-label">Playing Position</label>
+		     	 <div class="col-lg-6">
+					<!-- <div class="dropdown">
+				   	 	 <button class="btn btn-primary dropdown-toggle col-lg-6 col-lg-offset-2" type="button" data-toggle="dropdown">Dropdown Example
+				   	 	<span class="caret"></span></button>
+				    	  <ul class="dropdown-menu">
+				   		 	 <li><a href="#">HTML</a></li>
+				   		 	 <li><a href="#">CSS</a></li>
+				     		 <li><a href="#">JavaScript</a></li>
+				   		 </ul>
+			 	 	</div> -->
+			 	 		<select name="position" id="position">
+    						<option name="position" >Attacker</option>
+   							<option name="position" >Midfilder</option>
+    						<option name="position" >Defender</option>
+    						<option name="position" >Goalkeeper</option>
+ 						 </select>
+			 	 </div>
+		   	 </div>
+		    <div class="form-group">
+		      <div class="col-lg-6 col-lg-offset-2">
+		        <button type="reset" class="btn btn-default">Cancel</button>
+		        <button type="submit" class="btn btn-primary">Create Player</button>
+		      </div>
+		    </div>
+		  </fieldset>
+		</form>
+	</div>	
+ </body>
+ </html>

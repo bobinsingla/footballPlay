@@ -1,0 +1,75 @@
+<html>
+<head>
+	<title>Team </title>
+	<% include header %>
+</head>
+<body>
+	 <div class = "container">
+		<form method="post" id="form"class="form-horizontal" action="/team">
+		  <fieldset>
+		    <legend>Create Team</legend>
+		    <div class="form-group">
+		      <label for="inputName" class="col-lg-2 control-label">Team Name</label>
+		      <div class="col-lg-6">
+		        <input type="text" class="form-control" name ="name" id="name" placeholder="Team Name">
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <label for="inputName" class="col-lg-2 control-label">Selet Country</label>
+		      <div class="col-lg-6">
+		        <select name= "country" id= "country">
+		        	<% for (var j= 0; j < countryList.length; j++){
+		        		var country= countryList[j];
+		        		%>
+		        		<option name = "country" value = <%= country._id %>><%= country.name%></option>
+		        		<%}%>
+		        </select>
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <label for="inputName" class="col-lg-2 control-label">Select Players</label>
+		      <div class="col-lg-6">
+		      	<div class="checkbox">
+          			<label>
+			         	 <% for(var i= 0; i < playerList.length; i++) {
+					  		var player = playerList[i];
+					  		%>
+							<span><input type = "checkbox" name="player" id="player" value= <%=  player._id %>><%= player.pname %></span>
+						   	<br>
+						    <% } %>
+				 	</label>
+       			 </div>
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <div class="col-lg-6 col-lg-offset-2">
+		        <button type="reset" class="btn btn-default">Cancel</button>
+		        <button type="submit" class="btn btn-primary">Create Team</button>
+		      </div>
+		    </div>
+		  </fieldset>
+		</form>
+	</div>
+
+
+	 <!--<script type="text/javascript">
+			function getSelectedChbox(frm) {
+			  var selchbox = [];
+			  var inpfields = frm.getElementsByTagName('input');
+			  var nr_inpfields = inpfields.length;
+
+			  for(var i=0; i<nr_inpfields; i++) {
+			    if(inpfields[i].type == 'checkbox' && inpfields[i].checked == true) selchbox.push(inpfields[i].value);
+			  }
+
+			  return selchbox;
+			}
+
+			  document.getElementById('btntest').onclick = function(){
+			    var selchb = getSelectedChbox(this.form);
+			    //alert(selchb);
+			}
+
+		</script>-->
+</body>
+<html>

@@ -1,0 +1,37 @@
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+  (function(window, $, localStorage){
+    $(document).ready(function(){
+      addAuthorizationHeader();
+      submitClickEvent();
+    });
+    var addAuthorizationHeader = function(){
+      $.ajaxSetup({
+        beforeSend: function(xhr)
+        {
+          xhr.setRequestHeader("Authorization", "Bearer token" + "\"" +
+          localStorage.getItem("access_token") + "\"" );
+          xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+        }
+      });
+    };
+
+
+    var submitClickEvent = function(){
+      console.log("Ready to get submitted");
+      $("#form").submit(function(event){
+          event.preventDefault();
+          var formData = $( this ).serialize();
+          $.ajax({
+            type: "POST",
+            url: "/country",
+            data: formData,
+            success: function(pageData){
+                  $('#result').html(pageData);
+            }
+          });
+      });
+    };
+  })(window, $, localStorage);
+</script>
