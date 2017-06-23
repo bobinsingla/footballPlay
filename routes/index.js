@@ -6,6 +6,8 @@ module.exports = function(app){
 		routes();
 	};
 
+ //session expire days
+	const expire = 60;
 	var routes= function(){
 
 
@@ -29,45 +31,56 @@ module.exports = function(app){
 							}else{
 									console.log(Token.userId);
 									console.log(Token.userId.email);
+									var createdOn = Token.createdOn;
+									var diff = Math.abs(new Date().getTime() - createdOn.getTime());
+									var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+									console.log(diffDays);
+									if(diffDays > expire){
+										console.log("Login Again");
+									}else{
+										console.log("Logged In")
+									}
 							}
 				  next();
 				});
 			}
 		});
 
+
+
     app.get('/registration', function(req, res){
    			res.render('registration' );
 		});
 
 
+
 		app.post('/registration', function(req, res){
-      		var registrationInfo = req.body; //Get the parsed information
+  		var registrationInfo = req.body; //Get the parsed information
+      if(registrationInfo.password===registrationInfo.confirmpassword){
+        controller.registration.createRegistration(registrationInfo, function(error, registration){
+          if(error){
+					  res.render('show_message', {
+              message: "Sorry, you provided wrong info", type: "error"});
+          	}else{
+							res.render('show_message', {
+                message: "New person added", type: "success", registration: registrationInfo});
+							}
+						});
+       		}else{
+						console.log("error");
+					}
+				});
 
-          if(registrationInfo.password===registrationInfo.confirmpassword){
-
-            controller.registration.createRegistration(registrationInfo, function(error, registration){
-              if(error){
-                //TODO: Show error message
-               res.render('show_message', {
-                     message: "Sorry, you provided wrong info", type: "error"});
-              }else{
-                res.render('show_message', {
-                    message: "New person added", type: "success", registration: registrationInfo});
-               }
-             });
-           	}else{
-            console.log("error");
-           }
-      	});
 
 
     app.get('/login',function(req,res){
       res.render('login');
     });
 
+
+
     app.post('/login', function(req,res){
       var LoginData = req.body;
-
       controller.registration.login(LoginData, function(error, login){
         if(error){
           console.error(error.toString());
@@ -80,9 +93,12 @@ module.exports = function(app){
       });
     });
 
+
+
 		app.get('/authentication',function(req,res){
 			res.render('login');
 		});
+
 
 
 		app.post('/authentication', function(req, res){
@@ -95,6 +111,7 @@ module.exports = function(app){
     app.get('/country', function(req, res){
       res.render('country');
     });
+
 
 
     app.post('/country', function(req,res){
@@ -114,10 +131,10 @@ module.exports = function(app){
 
 
 
-
 		app.get('/player', function(req, res){
   			 res.render('player');
 		});
+
 
 
 		/**
@@ -134,42 +151,37 @@ module.exports = function(app){
       				res.render('show_message', {
             				message: "Sorry, you provided wrong info", type: "error"});
       			}else{
-
-
           			res.render('show_message', {
                			message: "New person added", type: "success", player: playerInfo});
-
       			}
       		});
       	});
 
 
 
+      app.get('/team',function(req , res){
+        controller.player.viewPlayer({}, 0, 10, function(err, playerList){
+           if(err){
+                      console.error(err);
+           }else{
+              controller.country.viewCountry({},0,10, function(err, countryList){
+                if(err){
+                          console.error(err);
+                }else{
+                      res.render('team', {playerList: playerList, countryList: countryList});
+              	}
+              });
+            }
+         });
+     	});
 
-        app.get('/team',function(req , res){
-          controller.player.viewPlayer({}, 0, 10, function(err, playerList){
-             if(err){
-                        console.error(err);
-             }else{
-                controller.country.viewCountry({},0,10, function(err, countryList){
-                  if(err){
-                            console.error(err);
-                  }else{
-                        res.render('team', {playerList: playerList, countryList: countryList});
-
-                  }
-
-                });
-             }
-          });
-     });
 
 
       app.post('/team', function(req, res){
           var teamName = req.body.name;
           var country_id = req.body.country;
           var players_id = [req.body.player];
-					console.log(players_id);
+					console.log(players_id[1]);
           controller.team.createTeam({name:teamName, country: country_id}, function(error, team){
             if(error){
               //TODO: Show error message
@@ -178,8 +190,6 @@ module.exports = function(app){
             }else{
                 /*res.render('show_message', {
                     message: "New person added", type: "success", team: teamInfo});*/
-							for(var i=0; i<players_id.length ; i++){
-									var p_id = players_id[i];
               		var where = {_id: { $in: p_id }};
               		var update = {team_id: team._id };
               		controller.player.updateAllPlayer(where, update, function(err, playerList){
@@ -189,12 +199,12 @@ module.exports = function(app){
                     console.log(playerList);
                   //  res.render('show_message', {
                   // message: "New person added", type: "success", team: team});
-                  }
+                }
               });
-						 }
             }
           });
         });
+
 
 
       app.get('/home',function(req,res){
@@ -219,7 +229,7 @@ module.exports = function(app){
          });
       });
 
-      app.get('/playerview',function(req, res){
+/*      app.get('/playerview',function(req, res){
         controller.player.viewPlayer({},0,10, function(err, playerList){
 	          if(err){
 	            console.error(err);
@@ -227,9 +237,8 @@ module.exports = function(app){
 	            res.render('playerview', {playerList: playerList})
           }
         });
-      });
-
-      app.get('/countryview',function(req, res){
+      });*/
+/*  		app.get('/countryview',function(req, res){
         controller.country.viewCountry({},0,10, function(err, countryList){
           if(err){
             console.error(err);
@@ -237,10 +246,8 @@ module.exports = function(app){
             res.render('countryview', {countryList: countryList})
           }
         });
-      });
-
-
-      app.get('/teamview',function(req, res){
+      });*/
+/*      app.get('/teamview',function(req, res){
         controller.team.viewTeam({},0,10, function(err, teamList){
           if(err){
             console.error(err);
@@ -248,7 +255,7 @@ module.exports = function(app){
             res.render('teamview', {teamList: teamList})
           }
         });
-      });
+      });*/
   }
 
 
