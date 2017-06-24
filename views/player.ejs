@@ -1,30 +1,17 @@
-<!--Name 
-Jersey Number 
-Play Position (Dropdown) 
-Stats 
-a. Number of Matches 
-b. Wins 
+<!--Name
+Jersey Number
+Play Position (Dropdown)
+Stats
+a. Number of Matches
+b. Wins
 c. Goals etc.. -->
 
 <html>
 <head>
 	<title> Create Player </title>
-	<% include header%>
+	<% include header %>
 </head>
 <body>
-	<!-- <form method = "post" name="player" >
-		Player Name: <input type = "text" name = "pname" id="pname">
-		Country:<input type = "text" name = "country" name = "country" id="country">
-		Club(team):<input type = "text" name = "club" id="club">
-		Jersy number: <input type = "number" name = "jnum" id"jnum" min="1" max="99">
-		Player Position: <select name="position" id="position">
-    						<option value="Attacker">Attacker</option>
-   							<option value="Midfilder">Midfilder</option>
-    						<option value="Defender">Defender</option>
-    						<option value="Goalkeeper">Goalkeeper</option>
- 						 </select>
- 		<input type = "submit" value = "Create Player">
- 	</form> -->
  	<div class = "container">
 		<form method="post" id= "form" action = "/player" class="form-horizontal" name = "registration">
 		  <fieldset>
@@ -50,23 +37,14 @@ c. Goals etc.. -->
 		    <div class="form-group">
 		      <label for="inputName" class="col-lg-2 control-label">Playing Position</label>
 		     	 <div class="col-lg-6">
-					<!-- <div class="dropdown">
-				   	 	 <button class="btn btn-primary dropdown-toggle col-lg-6 col-lg-offset-2" type="button" data-toggle="dropdown">Dropdown Example
-				   	 	<span class="caret"></span></button>
-				    	  <ul class="dropdown-menu">
-				   		 	 <li><a href="#">HTML</a></li>
-				   		 	 <li><a href="#">CSS</a></li>
-				     		 <li><a href="#">JavaScript</a></li>
-				   		 </ul>
-			 	 	</div> -->
-			 	 		<select name="position" id="position">
-    						<option name="position" >Attacker</option>
-   							<option name="position" >Midfilder</option>
-    						<option name="position" >Defender</option>
-    						<option name="position" >Goalkeeper</option>
- 						 </select>
-			 	 </div>
-		   	 </div>
+				 	 		<select name="position" id="position">
+	    						<option name="position" >Attacker</option>
+	   							<option name="position" >Midfilder</option>
+	    						<option name="position" >Defender</option>
+	    						<option name="position" >Goalkeeper</option>
+	 						 </select>
+				 	 </div>
+		   	</div>
 		    <div class="form-group">
 		      <div class="col-lg-6 col-lg-offset-2">
 		        <button type="reset" class="btn btn-default">Cancel</button>
@@ -75,6 +53,6 @@ c. Goals etc.. -->
 		    </div>
 		  </fieldset>
 		</form>
-	</div>	
- </body>
- </html>
+	</div>
+</body>
+</html>

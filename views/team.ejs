@@ -37,6 +37,7 @@
 							<span><input type = "checkbox" name="player" id="player" value= <%=  player._id %>><%= player.pname %></span>
 						   	<br>
 						    <% } %>
+								<input type= "hidden" name="playerId" id="playerId"></button>
 				 	</label>
        			 </div>
 		      </div>
@@ -44,7 +45,7 @@
 		    <div class="form-group">
 		      <div class="col-lg-6 col-lg-offset-2">
 		        <button type="reset" class="btn btn-default">Cancel</button>
-		        <button type="submit" class="btn btn-primary">Create Team</button>
+		        <button type="submit" id = "btntest" class="btn btn-primary">Create Team</button>
 		      </div>
 		    </div>
 		  </fieldset>
@@ -52,10 +53,11 @@
 	</div>
 
 
-	 <!--<script type="text/javascript">
-			function getSelectedChbox(frm) {
+	 <script type="text/javascript">
+
+			function getSelectedChbox(form) {
 			  var selchbox = [];
-			  var inpfields = frm.getElementsByTagName('input');
+			  var inpfields = form.getElementsByTagName('input');
 			  var nr_inpfields = inpfields.length;
 
 			  for(var i=0; i<nr_inpfields; i++) {
@@ -67,9 +69,10 @@
 
 			  document.getElementById('btntest').onclick = function(){
 			    var selchb = getSelectedChbox(this.form);
-			    //alert(selchb);
+					 document.getElementById("playerId").value = selchb;
+			    alert(selchb[1]);
 			}
 
-		</script>-->
+		</script>
 </body>
 <html>

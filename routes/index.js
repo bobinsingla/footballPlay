@@ -262,7 +262,7 @@ module.exports = function(app){
       app.post('/team', function(req, res){
           var teamName = req.body.name;
           var country_id = req.body.country;
-          var players_id = [req.body.player];
+          var players_id = req.body.playerId;
 					console.log(players_id[1]);
           controller.team.createTeam({name:teamName, country: country_id}, function(error, team){
             if(error){
@@ -270,9 +270,7 @@ module.exports = function(app){
               res.render('show_message', {
                     message: "Sorry, you provided wrong info", type: "error"});
             }else{
-                /*res.render('show_message', {
-                    message: "New person added", type: "success", team: teamInfo});*/
-              		var where = {_id: { $in: p_id }};
+              		var where = {_id: { $in: players_id}};
               		var update = {team_id: team._id };
               		controller.player.updateAllPlayer(where, update, function(err, playerList){
                   if(err){
@@ -324,11 +322,10 @@ module.exports = function(app){
 			});
 
 
-			app.post('/match', function(req, res){
+/*			app.post('/match', function(req, res){
 				var matchInfo = req.body;
 				controller.match.createMatch(matchInfo, function(error, match){
 					if(error){
-						//TODO: Show error message
 						res.render('show_message', {
 									message: "Sorry, you provided wrong info", type: "error"});
 					}else{
@@ -336,7 +333,7 @@ module.exports = function(app){
 									message: "New person added", type: "success", match: match});
 					}
 				});
-			})
+			})*/
 
 /*      app.get('/playerview',function(req, res){
         controller.player.viewPlayer({},0,10, function(err, playerList){
