@@ -1,0 +1,82 @@
+{
+  "registration":{
+    "method":{
+      "post":{
+        "admin":{
+          "allow": true
+        },
+        "user":{
+          "allow": true
+        },
+        "all":{
+          "allow": true
+        }
+      }
+    }
+  },
+
+  "home":{
+    "method":{
+      "post":{
+        "admin":{
+          "allow": true
+        },
+        "user":{
+          "allow": true
+        },
+        "all":{
+          "allow":true
+        }
+      }
+    }
+  },
+
+
+  "player":{
+    "method":{
+      "post":{
+        "admin":{
+          "allow": true
+        },
+        "user":{
+          "allow": true
+        },
+        "all":{
+          "allow":false
+        }
+      }
+    }
+  },
+
+  "team":{
+    "method":{
+      "post":{
+        "admin":{
+          "allow": true
+        },
+        "user":{
+          "allow": true
+        },
+        "all":{
+          "allow":false
+        }
+      }
+    }
+  },
+
+  "country":{
+    "method":{
+      "post":{
+        "admin":{
+          "allow": true
+        },
+        "user":{
+          "allow": true
+        },
+        "all":{
+          "allow":false
+        }
+      }
+    }
+  }
+}

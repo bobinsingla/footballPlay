@@ -2,13 +2,62 @@
 
 module.exports = function(app){
 	var controller = require("../controller")(app);
+	var acl = require("../acl");
+
 	var init = function(){
+		app.checkAccess = checkAccess;
 		routes();
+	};
+
+
+
+	/**
+		@param {req}
+		@return {Boolean}
+	**/
+	var checkAccess = function(req, method_name, method_type){
+		if(acl[method_name]){
+			if(acl[method_name].method[method_type]){
+				if(acl[method_name].method[method_type]){
+						var rules = acl[method_name].method[method_type];
+						var currentRole = "";
+						if(req.acl.admin){
+							currentRole = "admin";
+						}else if(req.acl.user){
+							currentRole = "user";
+						}else if(req.acl.unauthorised){
+							currentRole = "unauthorised";
+						}else if(req.acl.authorised){
+							currentRole = "authorised";
+						}else{
+
+						}
+
+						if(rules[currentRole]){
+							return rules[currentRole].allow !== undefined? rules.all.allow: false;
+						}else{
+							if(rules.all){
+								return rules.all.allow !== undefined? rules.all.allow: false;
+							}else{
+								return true;
+							}
+						}
+
+				}else{
+					return true;
+				}
+			}else{
+				return true;
+			}
+		}else{
+			return true;
+		}
 	};
 
  //session expire days
 	const expire = 60;
 	var routes= function(){
+
 
 
 		app.use(function (req, res, next) {
@@ -28,35 +77,66 @@ module.exports = function(app){
 					 exec(function (err, Token) {
 							if(err){
 								console.error(err.toString());
+
 							}else{
 									console.log(Token.userId);
-									console.log(Token.userId.email);
+									//console.log(Token.userId.email);
+									var user = Token.userId;
+									req.currentUser = user;
 									var createdOn = Token.createdOn;
 									var diff = Math.abs(new Date().getTime() - createdOn.getTime());
 									var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
 									console.log(diffDays);
 									if(diffDays > expire){
-										console.log("Login Again");
+										console.log("LogIn Again");
 									}else{
-										console.log("Logged In")
+										console.log("Logged In");
 									}
 							}
-				  next();
-				});
-			}
+					});
+					next();
+			 }
 		});
 
+		app.use(function(req, res, next){
+					var acl = {
+						admin: false,
+						user: false,
+						unauthorised: false,
+						authorised: false
+					};
+
+
+					if(req.currentUser){
+						if(req.currentUser.email == "bobinsingla@yahoo.com"){
+							console.log("you are an admin");
+							acl.admin = true;
+							acl.authorised = true;
+						}else{
+							acl.user = true;
+							acl.authorised = true;
+						}
+					}else{
+						acl.unauthorised = true;
+					}
+					req.acl = acl;
+					next();
+				});
 
 
     app.get('/registration', function(req, res){
-   			res.render('registration' );
-		});
+				if(app.checkAccess(req, "registration", "get")){
+					res.render('registration' );
+				}else{
+					res.send(401, "Unaouthorized Access");
+				}
+			});
 
 
 
 		app.post('/registration', function(req, res){
-  		var registrationInfo = req.body; //Get the parsed information
-      if(registrationInfo.password===registrationInfo.confirmpassword){
+			var registrationInfo = req.body; //Get the parsed information
+			if(registrationInfo.password === registrationInfo.confirmpassword){
         controller.registration.createRegistration(registrationInfo, function(error, registration){
           if(error){
 					  res.render('show_message', {
@@ -115,19 +195,21 @@ module.exports = function(app){
 
 
     app.post('/country', function(req,res){
-      var countryInfo = req.body;
-			//console.log(req.body);
-			//console.log(req.headers);
-      controller.country.createCountry(countryInfo,function(error,country){
-        if(error){
-          res.render('show_message',{
-               message:"Sorry",type:"error"});
-        	}else{
-          	res.render('show_message', {
-                message:"Done", type : "success", country: countryInfo})
-              }
-          });
-       });
+			if(app.checkAccess(req, "country", "post")){
+				var countryInfo = req.body;
+	      controller.country.createCountry(countryInfo,function(error,country){
+	        if(error){
+	          res.render('show_message',{
+	              message:"Sorry",type:"error"});
+	        		}else{
+	          		res.render('show_message', {
+	                message:"Done", type : "success", country: countryInfo})
+	              }
+	          	});
+						}else{
+							console.log("unauthorised");
+						}
+				});
 
 
 
@@ -228,6 +310,33 @@ module.exports = function(app){
             }
          });
       });
+
+
+
+			app.get('/match', function(req, res){
+				controller.team.viewTeam({}, 0, 10, function(err, teamList){
+					 if(err){
+											console.error(err);
+					 }else{
+											res.render('match', {teamList:	teamList});
+						}
+				 });
+			});
+
+
+			app.post('/match', function(req, res){
+				var matchInfo = req.body;
+				controller.match.createMatch(matchInfo, function(error, match){
+					if(error){
+						//TODO: Show error message
+						res.render('show_message', {
+									message: "Sorry, you provided wrong info", type: "error"});
+					}else{
+							res.render('show_message', {
+									message: "New person added", type: "success", match: match});
+					}
+				});
+			})
 
 /*      app.get('/playerview',function(req, res){
         controller.player.viewPlayer({},0,10, function(err, playerList){

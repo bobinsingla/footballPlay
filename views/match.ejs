@@ -1,0 +1,45 @@
+<html>
+<head>
+	<title>Team </title>
+	<% include header %>
+</head>
+<body>
+	 <div class = "container">
+		<form method="post" id="form"class="form-horizontal" action="/match">
+		  <fieldset>
+		    <legend>Play Match</legend>
+		    <div class="form-group">
+		      <!--<label for="inputName" class="col-lg-2 control-label">Select Team</label>-->
+		      <div class="col-lg-6" align="center" >
+		        <select name= "team1" id= "team1">
+		        	<% for (var i= 0; i < teamList.length; i++){
+		        		var team= teamList[i];
+		        		%>
+		        		<option name = "team" id= "team1" value = <%= team._id %>><%= team.name%></option>
+		        		<%}%>
+		        </select>
+            <input type = "button" id= "goal1" name= "goal1" value ="0" >
+            <input type = "button" id= "goal2" name= "goal2" value ="0" >
+            <select name= "team2" id= "team2">
+              <% for (var j= 0; j < teamList.length; j++){
+                var team= teamList[j];
+                %>
+                <option name = "team" id= "team2" value = <%= team._id %>><%= team.name%></option>
+                <%}%>
+            </select>
+            <br><br>
+            <input type = "button" id= "status" name= "status" value = "Result">
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <div class="col-lg-6" align = "center">
+		        <input type="button" onClick="scores()" class="btn btn-primary" value= "Play">
+		        <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+		      </div>
+		    </div>
+		  </fieldset>
+		</form>
+	</div>
+    <script src="/js/match.js"></script>
+</body>
+<html>

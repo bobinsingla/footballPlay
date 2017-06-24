@@ -9,7 +9,7 @@ var viewCountry  = function(filter, skip, limit, callback){
       filter  = filter || {};
       limit   = limit || 10;
       skip    = skip || 0;
-      
+
       country.find(filter).limit(limit).skip(skip).exec(callback);
   }
 
@@ -19,10 +19,10 @@ var viewCountry  = function(filter, skip, limit, callback){
 		var newcountry = new country({
 			name:countryInfo.name
 		});
-	
+
 
 			newcountry.save(callback);
-    }; 
+    };
 
 
 	return{
