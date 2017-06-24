@@ -2,9 +2,30 @@
 <head>
 	<title>Registration</title>
 	<% include header %>
+	<script type="text/javascript">
+   <!--
+      // Form validation code will come here.
+      function validate()
+      {
+
+         if( document.form.name.value == "" )
+         {
+            alert( "Please provide your name!" );
+            document.form.name.focus() ;
+            return false;
+         }
+
+         if( document.form.email.value == "" )
+         {
+            alert( "Please provide your Email!" );
+            document.myForm.email.focus() ;
+            return false;
+         }
+      }
+   //-->
+</script>
 </head>
 <body>
-	
 	<div class = "container">
 		<form method="post" action="/registration" class="form-horizontal" name = "registration" id="form">
 		  <fieldset>
@@ -12,11 +33,11 @@
 		    <div class="form-group">
 		      <label for="inputName" class="col-lg-2 control-label">Name</label>
 		      <div class="col-lg-6">
-		        <input type="text" class="form-control" name ="name" id="name" placeholder="Name" >
+		        <input type="text" class="form-control" name ="name" id="name" placeholder="Name"  >
 		      </div>
 		    </div>
 		    <div class="form-group">
-		      <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+		      <label for="inputEmail" class="col-lg-2 control-label" required>Email</label>
 		      <div class="col-lg-6">
 		        <input type="email" class="form-control" name ="email" id="email" placeholder="Email">
 		      </div>
@@ -24,19 +45,19 @@
 		    <div class="form-group">
 		      <label for="inputDob" class="col-lg-2 control-label">Date of Birth</label>
 		      <div class="col-lg-6">
-		        <input type="date" class="form-control" name ="dob" id="dob" placeholder="Date Of Birth">
+		        <input type="date" class="form-control" name ="dob" id="dob" placeholder="Date Of Birth" required>
 		      </div>
 		    </div>
 		    <div class="form-group">
 		      <label for="inputPassword" class="col-lg-2 control-label">Password</label>
 		      <div class="col-lg-6">
-		        <input type="password" class="form-control" name ="password" id="password" placeholder="Password">
+		        <input type="password" class="form-control" name ="password" id="password" placeholder="Password" required>
 		      </div>
 		    </div>
 		    <div class="form-group">
 		      <label for="inputPassword" class="col-lg-2 control-label">Confirm Password</label>
 		      <div class="col-lg-6">
-		        <input type="password" class="form-control" name ="confirmpassword" id="confirmpassword" placeholder="Confirm Password" >
+		        <input type="password" class="form-control" name ="confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
 		      </div>
 		    </div>
 		    <div class="form-group">
@@ -48,6 +69,5 @@
 		  </fieldset>
 		</form>
 	</div>
-	
-	</body>
+</body>
 </html>

@@ -1,10 +1,11 @@
-
+<html>
+<head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
   (function(window, $, localStorage){
     $(document).ready(function(){
       addAuthorizationHeader();
-      submitClickEvent();
+      //submitClickEvent();
     });
     var addAuthorizationHeader = function(){
       $.ajaxSetup({
@@ -18,7 +19,7 @@
     };
 
 
-    var submitClickEvent = function(){
+/*    var submitClickEvent = function(){
       console.log("Ready to get submitted");
       $("#form").submit(function(event){
           event.preventDefault();
@@ -32,6 +33,11 @@
             }
           });
       });
-    };
+    };*/
   })(window, $, localStorage);
 </script>
+</head>
+  <body>
+    <a href="/home">Home</a>
+  </body>
+</html>

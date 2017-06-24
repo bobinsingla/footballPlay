@@ -77,7 +77,7 @@ module.exports = function(app){
 					 exec(function (err, Token) {
 							if(err){
 								console.error(err.toString());
-
+								next();
 							}else{
 									console.log(Token.userId);
 									//console.log(Token.userId.email);
@@ -128,7 +128,7 @@ module.exports = function(app){
 				if(app.checkAccess(req, "registration", "get")){
 					res.render('registration' );
 				}else{
-					res.send(401, "Unaouthorized Access");
+					res.status(401).send("Unaouthorized Access");
 				}
 			});
 
@@ -139,15 +139,15 @@ module.exports = function(app){
 			if(registrationInfo.password === registrationInfo.confirmpassword){
         controller.registration.createRegistration(registrationInfo, function(error, registration){
           if(error){
-					  res.render('show_message', {
-              message: "Sorry, you provided wrong info", type: "error"});
+					  res.render('show_message',{message: "Email already exist, Please Login", type: "error"});
           	}else{
 							res.render('show_message', {
                 message: "New person added", type: "success", registration: registrationInfo});
 							}
 						});
        		}else{
-						console.log("error");
+						res.render('show_message',{message: "Fill out same passwords", type: "error"});
+						//console.log("error");
 					}
 				});
 
@@ -164,8 +164,9 @@ module.exports = function(app){
       controller.registration.login(LoginData, function(error, login){
         if(error){
           console.error(error.toString());
+					res.render('show_message',{
+							message:"Please check your email and password",type:"error"});
         }else{
-          //console.log(login._id);
           var loginId = login._id;
           var JSONObj = {loginId};
           res.render('authorization',{JSONObj: JSONObj});
@@ -175,8 +176,8 @@ module.exports = function(app){
 
 
 
-		app.get('/authentication',function(req,res){
-			res.render('login');
+		app.get('/index',function(req,res){
+			res.render('set_token');
 		});
 
 
@@ -195,20 +196,20 @@ module.exports = function(app){
 
 
     app.post('/country', function(req,res){
-			if(app.checkAccess(req, "country", "post")){
+			//if(app.checkAccess(req, "country", "post")){
 				var countryInfo = req.body;
 	      controller.country.createCountry(countryInfo,function(error,country){
 	        if(error){
 	          res.render('show_message',{
-	              message:"Sorry",type:"error"});
+	              message:"Sorry, country is already in database",type:"error"});
 	        		}else{
 	          		res.render('show_message', {
-	                message:"Done", type : "success", country: countryInfo})
+	                message:"New Country added", type : "success", country: countryInfo})
 	              }
 	          	});
-						}else{
+						/*}else{
 							console.log("unauthorised");
-						}
+						}*/
 				});
 
 
@@ -234,7 +235,7 @@ module.exports = function(app){
             				message: "Sorry, you provided wrong info", type: "error"});
       			}else{
           			res.render('show_message', {
-               			message: "New person added", type: "success", player: playerInfo});
+               			message: "New player added", type: "success", player: playerInfo});
       			}
       		});
       	});
@@ -262,7 +263,7 @@ module.exports = function(app){
       app.post('/team', function(req, res){
           var teamName = req.body.name;
           var country_id = req.body.country;
-          var players_id = req.body.playerId;
+          var players_id = req.body.player;
 					console.log(players_id[1]);
           controller.team.createTeam({name:teamName, country: country_id}, function(error, team){
             if(error){
@@ -272,11 +273,15 @@ module.exports = function(app){
             }else{
               		var where = {_id: { $in: players_id}};
               		var update = {team_id: team._id };
-              		controller.player.updateAllPlayer(where, update, function(err, playerList){
+              		controller.player.updateAllPlayer(where, update, {multi:true}, function(err, playerList){
                   if(err){
                     console.error(err.toString());
+										res.render('show_message', {
+			            				message: "Sorry, you provided wrong info", type: "error"});
                   }else{
                     console.log(playerList);
+										res.render('show_message', {
+			            				message: "New Team created", type: "success"});
                   //  res.render('show_message', {
                   // message: "New person added", type: "success", team: team});
                 }
@@ -299,6 +304,8 @@ module.exports = function(app){
                   controller.team.viewTeam({},0,10, function(err, teamList){
                     if(err){
                       console.error(err);
+											res.render('show_message', {
+				            				message: "Sorry, something went wrong", type: "error"});
                     }else{
                       res.render('home', {teamList: teamList,countryList: countryList,playerList: playerList})
                     }

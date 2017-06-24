@@ -1,9 +1,9 @@
 "use strict";
 
 var mongoose = require('mongoose');
-   
+
 var registrationSchema = mongoose.Schema({
-   name:{ 
+   name:{
    	type: String,
    	required : true
    },
@@ -17,9 +17,12 @@ var registrationSchema = mongoose.Schema({
    dob:{
     type: Date,
     required: true
-   }, 
+   },
 
-   password: String
+   password:{
+     type: String,
+     required : true
+   }
 });
 
 module.exports = mongoose.model('registration', registrationSchema);

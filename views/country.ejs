@@ -5,16 +5,16 @@
 
 </head>
 <body>
-	<div id = "result">
-	</div>
+	<!--<div id = "result">
+	</div>-->
 	<div class = "container">
-		<form class="form-horizontal" id="form">
+		<form class="form-horizontal" id="form" action="/country" method "post">
 		  <fieldset>
 		    <legend>Create Country</legend>
 		    <div class="form-group">
-		      <label for="inputName" class="col-lg-2 control-label">Country Name</label>
+		      <label for="inputName" class="col-lg-2 control-label" >Country Name</label>
 		      <div class="col-lg-6">
-		        <input type="text" class="form-control" name ="name" id="name" placeholder="Name" >
+		        <input type="text" class="form-control" name ="name" id="name" placeholder="Name" required>
 		      </div>
 		    </div>
 		    <div class="form-group">
@@ -27,6 +27,5 @@
 		</form>
 
 	</div>
-	<% include set_token %>
 </body>
 </html>

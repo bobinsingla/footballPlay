@@ -1,14 +1,15 @@
 <html>
    <head>
-      <title> Player </title>
+      <title> Report </title>
+      <% include header %>
    </head>
    <body>
       <% if(type == "error") { %>
         <h3><%= message %></h3>
       <% }else{ %>
-   
-        <h3>New player</h3>
- 
+
+        <h3><%= message%></h3>
+
         <%}%>
    </body>
    </html>

@@ -16,13 +16,17 @@ var viewCountry  = function(filter, skip, limit, callback){
 
 
 	var createCountry= function(countryInfo, callback){
-		var newcountry = new country({
-			name:countryInfo.name
-		});
+    if(country.findOne({name:countryInfo.name })){
+        var error = new Error("This country already exist");
+            callback(error, null);
+    }else{
+      var newcountry = new country({
+        name:countryInfo.name
+      });
 
-
-			newcountry.save(callback);
-    };
+        newcountry.save(callback);
+    }
+  };
 
 
 	return{
